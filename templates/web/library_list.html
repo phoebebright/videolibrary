@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+
+
+    <h1 class="page-header">Library Contents</h1>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+
+            <tr>
+                <th>#</th>
+                <th>Header</th>
+                <th>Header</th>
+                <th>Header</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in object_list %}
+
+
+
+                <tr>
+                    <td>{{ item.ref }}</td>
+                    <td>{% for scenario in item.scenarios.all %}
+                        {{ scenario.name }}
+
+                    {% endfor %}</td>
+                    <td>{{ item.added_on }}</td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
