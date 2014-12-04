@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
-from taggit.managers import TaggableManager
+
 
 
 
@@ -21,7 +21,7 @@ class Scenario(models.Model):
 
 
 class Library(models.Model):
-    ref = models.CharField(max_length=10, unique=True)
+    title = models.CharField(max_length=32, unique=True)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     added_on = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True, null=True)
@@ -29,11 +29,10 @@ class Library(models.Model):
     quality = models.CharField(max_length=10, blank=True, null=True)
     location = models.CharField(max_length=30, blank=True, null=True)
     video = models.FileField(upload_to="uploads", help_text=".mp4 only")
-
-    tags = TaggableManager()
-
+    scenarios = models.ManyToManyField(Scenario, blank=True, null=True)
+    
     def __unicode__(self):
-        return self.ref
+        return self.title
 
     def get_absolute_url(self):
         return reverse('view', args=[self.id])

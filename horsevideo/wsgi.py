@@ -7,7 +7,12 @@ For more information on this file, see
 https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 """
 
-import os
+
+import sys, os
+
+sys.path.append('/home/django')
+sys.path.append('/home/django/videolibrary')
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "horsevideo.settings")
 
 from django.core.wsgi import get_wsgi_application

@@ -3,7 +3,7 @@ from web.models import Scenario,Library
 
 
 class LibraryAdmin(admin.ModelAdmin):
-    list_display = ['ref', 'added_on']
+    list_display = ['title', 'added_on']
 
 admin.site.register(Library, LibraryAdmin)
 
