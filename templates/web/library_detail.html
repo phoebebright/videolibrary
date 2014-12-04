@@ -7,28 +7,33 @@
     <h3 class="page-header">{{ object.title }}</h3>
 
     <div class="row">
-    {{ object.description }}
+        {{ object.description }}
     </div>
 
     <div class="row">
-    <div class="col-sm-3 col-md-2">
-        Added
-    </div>
-     <div class="col-sm-9  col-md-10 ">
-        {{ object.added_by }} on {{ object.added_on }}
-     </div>
+        <div class="col-sm-3 col-md-2">
+            Added
+        </div>
+        <div class="col-sm-9  col-md-10 ">
+            {{ object.added_by }} on {{ object.added_on }}
+        </div>
     </div>
 
     <div class="row">
-    <div class="col-sm-3 col-md-2">
-        Scenarios
-    </div>
-     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-        {% for item in object.scenarios.all %}
-            {{ item }},
-         {% endfor %}
-         </div>
+        <div class="col-sm-3 col-md-2">
+            Scenarios
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+            {% for item in object.scenarios.all %}
+                {{ item }},
+            {% endfor %}
+        </div>
     </div>
 
-    <source src="{{ MEDIA_URL }}{{ object.video }}" type="video/mp4">Play Video</source>
+    <video name='player' controls autoplay width='100%'>
+        <source src="/{{object.video}}" type="video/mp4"></source>
+    </video>
+
+
+    <a href src="/{{ object.video }}" >Download</a>
 {% endblock %}
