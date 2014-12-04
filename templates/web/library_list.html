@@ -12,10 +12,11 @@
             <thead>
 
             <tr>
-                <th>#</th>
-                <th>Header</th>
-                <th>Header</th>
-                <th>Header</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Added</th>
+                <th>Location</th>
+                <th>Scenarios</th>
 
             </tr>
             </thead>
@@ -24,13 +25,16 @@
 
 
 
-                <tr>
+                <tr data-id="{{ item.id }}">
                     <td>{{ item.title }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.added_on }}</td>
+                    <td>{{ item.location }}</td>
                     <td>{% for scenario in item.scenarios.all %}
                         {{ scenario.name }}
 
                     {% endfor %}</td>
-                    <td>{{ item.added_on }}</td>
+
 
                 </tr>
             {% endfor %}
@@ -38,6 +42,22 @@
         </table>
     </div>
 
-    <a id="add_video" href="/add/" class="btn btn-primary">Add Video</a>
 
+
+{% endblock %}
+
+{% block js %}
+
+    <script>
+        $(document).ready(function() {
+
+            $('#videos_list tr').click(function() {
+                var href = "/view/" + $(this).data("id") + "/";
+                    if(href) {
+                        window.location = href;
+                    }
+                });
+            });
+
+    </script>
 {% endblock %}
