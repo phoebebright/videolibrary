@@ -37,7 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web',
-    'taggit',
     'bootstrap3',
 )
 
@@ -61,8 +60,13 @@ WSGI_APPLICATION = 'horsevideo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'videolibrary',
+        'USER': 'root',  
+        'PASSWORD': '578632',
+        'HOST': '',
+        'PORT': '', 
+        'OPTIONS': { 'init_command': 'SET storage_engine=MyISAM;' }
     }
 }
 
@@ -80,10 +84,13 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'site_media')
+MEDIA_URL = '/site_media/'
 
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'shared_static')
+STATIC_URL = '/shared_static/'
+
+
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
