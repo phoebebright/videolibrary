@@ -25,7 +25,6 @@ class Library(models.Model):
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     added_on = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True, null=True)
-    duration = models.PositiveSmallIntegerField(max_length=3, default=1, help_text="Duration in Minutes")
     quality = models.CharField(max_length=10, blank=True, null=True)
     location = models.CharField(max_length=30, blank=True, null=True)
     video = models.FileField(upload_to="uploads", help_text=".mp4 only")
