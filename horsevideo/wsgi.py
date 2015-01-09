@@ -10,8 +10,7 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 import sys, os
 
 # Activate your virtual env
-activate_env=os.path.expanduser("/home/django/virtualenvs/videos/bin/activate_this.py")
-execfile(activate_env, dict(__file__=activate_env))
+
 
 
 

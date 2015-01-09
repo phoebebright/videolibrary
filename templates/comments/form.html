@@ -1,0 +1,29 @@
+{% load comments i18n %}
+
+<form action="/comments/post/" method="post">{% csrf_token %}
+<input type="hidden" name="next" value="{{ form.target_object.get_absolute_url }}" />
+
+    {% for field in form %}
+
+        {% if field.is_hidden or field.name == 'url' or field.name == 'email' %}
+
+            <div class="hidden">{{ field }}</div>
+        {% else %}
+            <div class="form-group">
+
+
+            {% if field.errors %}{{ field.errors }}{% endif %}
+            {%  if field.name != 'comment' %}
+                <div
+                        {% if field.errors %} class="error"{% endif %}
+                        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+                {{ field.label_tag }}
+            {% endif %}
+         {{ field }}
+        </div>
+        {% endif %}
+    {% endfor %}
+    <p class="submit">
+        <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" />
+    </p>
+</form>

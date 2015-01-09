@@ -1,39 +1,140 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
+{% load comments %}
+
+{% block extra_head %}
+    <style>
+        .jumbotron {
+            padding: 0;
+            margin-bottom: 0;
+            max-width: 900px;
+        }
+        .videoControls {
+            width: 100%;
+            font-size: 30px;
+        }
+        .videoControls span, .videoControls div {
+            display: inline-block;
+            color: #999;
+        }
+        .btnMute, .btnFullscreen {
+            float: right;
+            padding-left: 20px;
+            margin-right: 20px;
+            color: #999;
+        }
+        .btnPlay {
+            padding-right: 20px;
+            margin-left: 20px;
+            color: #999;
+        }
+        .glyphicon:hover {
+            color: #555;
+        }
+    </style>
+{% endblock %}
 
 {% block main %}
 
 
     <h3 class="page-header">{{ object.title }}</h3>
 
-    <div class="row">
-        {{ object.description }}
-    </div>
+    <div class="panel panel-default">
 
-    <div class="row">
-        <div class="col-sm-3 col-md-2">
-            Added
-        </div>
-        <div class="col-sm-9  col-md-10 ">
-            {{ object.added_by }} on {{ object.added_on }}
+        <div class="panel-body">
+            {{ object.description }}
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm-3 col-md-2">
-            Scenarios
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-            {% for item in object.scenarios.all %}
-                {{ item }},
-            {% endfor %}
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+
+                    <div class="form-group">
+                        <label for="added">Added to Library</label>
+                        {{ object.added_by }} on {{ object.added_on }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scenario">Scenario</label>
+                        {% for item in object.scenarios.all %}
+                            {{ item }},
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+                <div class="col-md-9">
+                    <div class="jumbotron">
+                        <video width="100%"  id="videoPlayer">
+                            <source src="/{{object.video}}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="videoControls">
+                            <a href="#" class="btnPlay"><span class="glyphicon glyphicon-play"></span></a>
+                            <div class="videoTime">
+                                <span class="current"></span>/<span class="duration"></span>
+                            </div>
+                            <a href="#" class="btnFullscreen"><span class="glyphicon glyphicon-fullscreen"></span></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 
-    <video name='player' controls autoplay width='100%'>
-        <source src="/{{object.video}}" type="video/mp4"></source>
-    </video>
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <a href class="btn btn-primary btn-lg" src="http://videos.seeastride.com/{{ object.video }}" ><span class="glyphicon glyphicon-download"></span>Download</a>
+            </div>
+            <div class="col-md-9">
+
+                <h5>Comments</h5>
+                {% render_comment_form for object %}
+                {% render_comment_list for object %}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        $( document ).ready(function() {
+            var videoPlayer = $('#videoPlayer');
+            videoPlayer[0].muted = true;
+
+            $('.btnPlay').click(function() {
+                if(videoPlayer[0].paused) {
+                    videoPlayer[0].play();
+                    $('.glyphicon-play').attr('class', 'glyphicon glyphicon-pause');
+                }
+                else {
+                    videoPlayer[0].pause();
+                    $('.glyphicon-pause').attr('class', 'glyphicon glyphicon-play');
+                }
+                return false;
+            })
+            videoPlayer.on('timeupdate', function() {
+                $('.current').text(Math.round(videoPlayer[0].currentTime));
+            });
+            videoPlayer.on('loadedmetadata', function() {
+                $('.duration').text(Math.round(videoPlayer[0].duration));
+            });
+
+            $('.btnFullscreen').on('click', function() {
+                videoPlayer[0].webkitEnterFullscreen();
+                videoPlayer[0].mozRequestFullScreen();
+                return false;
+            });
+        });
+    </script>
 
 
-    <a href src="http://videos.seeastride.com/{{ object.video }}" >Download</a>
 {% endblock %}

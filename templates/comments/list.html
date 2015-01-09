@@ -1,0 +1,12 @@
+
+  <ul class="list-group">
+        {% for comment in comment_list %}
+
+    <li class="list-group-item">
+      <p>{{ comment.comment }}</p>
+    <p> <span class="pull-right">{{ comment.name }}</span><br />
+                <span class="pull-right">{{ comment.submit_date|timesince }}</span></p>
+    </li>
+
+    {% endfor %}
+  </ul>

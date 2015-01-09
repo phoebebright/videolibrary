@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^add/$', LibraryAddView.as_view(), name="add"),
     url(r'^list/$', LibraryListView.as_view(), name="list"),
     url(r'^view/(?P<pk>\d+)/$', LibraryDisplayView.as_view(), name="view"),
-
+    url(r'^comments/', include('django_comments.urls')),
     url(r'^admin/', include(admin.site.urls)),
     ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
